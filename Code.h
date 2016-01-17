@@ -21,8 +21,20 @@ class Code
         //constructor
         Code(int newN, int newM);
 
+        //n and m setter
+        set(int newN, int newM);
+
+        setCodeDigits(const std::string &guess);
+
+        //accessor, does not change data
+        getCode();
+
         //initialize random variables
-        randomInit(int n, int m, vector<int>& codeDigits);
+        void randomInit();
+
+        checkCorrect( const Code& guessDigits);
+
+        int checkIncorrect( const Code& guessDigits);
 
 
 
@@ -36,10 +48,4 @@ class Code
 
         //code
         std::vector <int> codeDigits;
-}
-
-int main()
-{
-
-   return 0;
 }
