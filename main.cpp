@@ -74,10 +74,10 @@ int Code::checkIncorrect( Code& guessDigits)
     vector<int> guessVector = guessDigits.getCode();
     vector<int> codeVector = getCode();
     int incorrectLocationDigits = 0;
-    for(int i=0; i<codeVector.size(); i++)
+    for(int i=0; i < codeVector.size(); i++)
     //for each digit in codeDigits
     {
-        for(int j=0; j<guessVector.size(); j++)
+        for(int j=0; j < guessVector.size(); j++)
         //for each digit in guessDigits
         {
             if(codeVector[i] == guessVector[j])
