@@ -37,19 +37,24 @@ vector<int> Code::randomInit()
         //that is in the range 0 to m-1
         codeDigits.push_back(rand() % m);
     }
+
 }
 
 int Code::checkCorrect( Code& guessDigits)
 //returns the  number of correct digits in the correct location
 {
    int numberCorrect = 0;
+
    for(int i = 0; i < guessDigits.codeDigits.size(); i++)
    {
+
        if (guessDigits.codeDigits[i] == codeDigits[i])
        {
            numberCorrect += 1;
        }
+
    }
+
    return numberCorrect;
 //end of checkCorrect function
 }
@@ -116,7 +121,7 @@ void Code::setCodeDigits(const string &guess)
     //adds each number in guess to codeDigits
     {
         //Subtract 48 to convert from ASCII to Integer
-        codeDigits.push_back(guess[i]-48);
+        codeDigits.push_back(guess[i] - 48);
     }
 }
 
@@ -126,10 +131,18 @@ vector<int> Code::getCode()
     return codeDigits;
 }
 
+void Code::checkGuess( Code& guessCode)
+//prints out the results of checkCorrent and checkIncorrect
+{
+    cout << "Result: (" << checkCorrect(guessCode);
+    cout << ", " << checkIncorrect(guessCode);
+    cout << ")" << endl;
+}
+
 void printCodeDigits(Code viewingCode)
 //prints the code vector in a readable format
 {
-    cout << "(";
+    cout << "Code: (";
 
     for(int i = 0; i < viewingCode.getCode().size(); ++i)
     {
@@ -144,15 +157,8 @@ void printCodeDigits(Code viewingCode)
 //end of printCodeDigits
 }
 
-void Code::checkGuess( Code& guessCode)
-//prints out the results of checkCorrent and checkIncorrect
+int main()
 {
-    cout << "(" << checkCorrect(guessCode);
-    cout << ", " << checkIncorrect(guessCode);
-    cout << ")" << endl;
-}
-
-int main(){
     srand (time(NULL));   //Uses time to make rand more random
 
     int n = 5;            //n is the number of digits
@@ -178,7 +184,6 @@ int main(){
     sampleGuess1.setCodeDigits("50326");
     sampleGuess2.setCodeDigits("21222");
     sampleGuess3.setCodeDigits("13345");
-
 
     //check the guess codes against the computerCode
     printCodeDigits(sampleGuess1);
