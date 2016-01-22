@@ -7,7 +7,7 @@
 // randomInit, checkCorect, and checkIncorect.
 //
 
-//comments to the side for variables?
+//comments to the side for variables
 
 #include "Code.h"
 #include <iostream>
