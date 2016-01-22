@@ -12,6 +12,7 @@
 #include "Code.h"
 #include <iostream>
 #include <vector>
+#include <time.h>    //for making rand() more random
 
 using namespace std;
 
@@ -84,14 +85,16 @@ int Code::checkIncorrect( Code& guessDigits)
             //replaces
             {
                 if (i == j){
-                    guessVector[i] = -1;
-                    codeVector[j] = -1;
+                    cout << "\ni == j : position(" << i << ", " << j << ") - Value: (" << codeVector[i] << " == " << guessVector[j] << ")" << endl;
+                    codeVector[i] = -1;
+                    guessVector[j] = -1;
                     j = guessVector.size();
                 }
                 else
                 {
-                    guessVector[i] = -1;
-                    codeVector[j] = -1;
+                    cout << "\ni != j : position(" << i << ", " << j << ") - Value: (" << codeVector[i] << " == " << guessVector[j] << ")" << endl;
+                    codeVector[i] = -1;
+                    guessVector[j] = -1;
                     incorrectLocationDigits++;
                     j = guessVector.size();
                 }
@@ -100,7 +103,6 @@ int Code::checkIncorrect( Code& guessDigits)
     }
     return incorrectLocationDigits;
 }
-
 
 void printCodeDigits(Code viewingCode)
 {
@@ -115,24 +117,10 @@ void printCodeDigits(Code viewingCode)
     cout << ")" << endl;
 }
 
-void askUserForDigits(Code& computerCode)
+void Code::checkGuess( Code& guessCode)
 {
-    int m;
-    int n;
-    cout << "Please enter an integer value: ";
-    cin >> m;
-    cout << "\nThe value you entered is " << m;
-    cout << "Please enter a second integer value: ";
-    cin >> n;
-    cout << "\nThe second value you entered is " << n << endl;
-    computerCode.randomInit();
-    cout << "The code has been generated, time to start guessing :)" << endl;
-}
-
-void checkGuess(Code& computerCode, Code& guessCode)
-{
-    cout << "(" << computerCode.checkCorrect(guessCode);
-    cout << ", " << computerCode.checkIncorrect(guessCode);
+    cout << "(" << checkCorrect(guessCode);
+    cout << ", " << checkIncorrect(guessCode);
     cout << ")" << endl;
 }
 
@@ -142,6 +130,7 @@ Code::Code(){
 }
 
 int main(){
+    srand (time(NULL));   //Uses time to make rand more random
 
     int n = 5;            //n is the number of digits
     int m = 5;            //m is the range of the guess
@@ -162,15 +151,13 @@ int main(){
 
     //setting the codeDigits of each sample Code
     sampleGuess1.setCodeDigits("50326");
-    printCodeDigits(sampleGuess1);
     sampleGuess2.setCodeDigits("21222");
-    printCodeDigits(sampleGuess2);
     sampleGuess3.setCodeDigits("13345");
-    printCodeDigits(sampleGuess3);
 
-    checkGuess(computerCode, sampleGuess1);
-    checkGuess(computerCode, sampleGuess2);
-    checkGuess(computerCode, sampleGuess3);
+    //checking the guess codes against the computerCode
+    computerCode.checkGuess(sampleGuess1);
+    computerCode.checkGuess(sampleGuess2);
+    computerCode.checkGuess(sampleGuess3);
 
     cout << "Done" << endl;
 

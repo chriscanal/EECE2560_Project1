@@ -37,6 +37,8 @@ class Code
 
         int checkIncorrect( Code& guessDigits);
 
+        void checkGuess( Code& guessCode);
+
 
 
     private:
