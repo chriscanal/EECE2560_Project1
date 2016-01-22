@@ -33,9 +33,9 @@ class Code
         //initialize random variables
         std::vector<int> randomInit();
 
-        int checkCorrect( const Code& guessDigits);
+        int checkCorrect( Code& guessDigits);
 
-        int checkIncorrect( const Code& guessDigits);
+        int checkIncorrect( Code& guessDigits);
 
 
 
@@ -47,7 +47,7 @@ class Code
         //range of digits in code
         int m;
 
-        //code
+        //vector containg code
         std::vector<int> codeDigits;
 };
 
