@@ -40,15 +40,15 @@ void Code::randomInit()
 
 }
 
-int Code::checkCorrect( Code& guessDigits)
+int Code::checkCorrect( Code& guessDigits) const
 //returns the  number of correct digits in the correct location
 {
    int numberCorrect = 0;
 
-   for(int i = 0; i < guessDigits.codeDigits.size(); i++)
+   for(int i = 0; i < guessDigits.getCode().size(); i++)
    {
 
-       if (guessDigits.codeDigits[i] == codeDigits[i])
+       if (guessDigits.getCode()[i] == getCode()[i])
        {
            numberCorrect += 1;
        }
@@ -60,7 +60,7 @@ int Code::checkCorrect( Code& guessDigits)
 }
 
 
-int Code::checkIncorrect( Code& guessDigits)
+int Code::checkIncorrect( Code& guessDigits) const
 //returns the  number of correct digits in the incorrect location
 {
     vector<int> guessVector = guessDigits.getCode();
@@ -125,13 +125,13 @@ void Code::setCodeDigits(const string &guess)
     }
 }
 
-vector<int> Code::getCode()
+vector<int> Code::getCode() const
 //returns the code vector
 {
     return codeDigits;
 }
 
-void Code::checkGuess( Code& guessCode)
+void Code::checkGuess( Code& guessCode) const
 //prints out the results of checkCorrent and checkIncorrect
 {
     cout << "Result: (" << checkCorrect(guessCode);

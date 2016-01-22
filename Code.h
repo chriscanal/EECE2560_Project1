@@ -31,19 +31,19 @@ class Code
         void setCodeDigits(const std::string &guess);
 
         //accessor, does not change data
-        std::vector<int> getCode();
+        std::vector<int> getCode() const;
 
         //initialize random variables
         void randomInit();
 
         //Checks how many integers are in the correct location
-        int checkCorrect( Code& guessDigits);
+        int checkCorrect( Code& guessDigits) const;
 
         //Checks how many integers are in the incorrect location
-        int checkIncorrect( Code& guessDigits);
+        int checkIncorrect( Code& guessDigits) const;
 
         //Runs checkIncorrect and checkCorrect and prints result
-        void checkGuess( Code& guessCode);
+        void checkGuess( Code& guessCode) const;
 
 
 
