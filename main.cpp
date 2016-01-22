@@ -45,12 +45,13 @@ int Code::checkCorrect( Code& guessDigits)
    int numberCorrect = 0;
    for(int i = 0; i < guessDigits.codeDigits.size(); i++)
    {
-       if ( guessDigits.codeDigits[i] == codeDigits[i] )
+       if (guessDigits.codeDigits[i] == codeDigits[i])
        {
            numberCorrect += 1;
        }
    }
    return numberCorrect;
+//end of checkCorrect function
 }
 
 
@@ -60,12 +61,15 @@ int Code::checkIncorrect( Code& guessDigits)
     vector<int> guessVector = guessDigits.getCode();
     vector<int> codeVector = getCode();
     int incorrectLocationDigits = 0;
-    for(int i=0; i < codeVector.size(); i++)
+
+    for(int i = 0; i < codeVector.size(); i++)
     //for each digit in codeDigits
     {
-        for(int j=0; j < guessVector.size(); j++)
+
+        for(int j = 0; j < guessVector.size(); j++)
         //for each digit in guessDigits
         {
+
             if(codeVector[i] == guessVector[j])
             //increments incorrectDigits if digit is in code
             //but not right place. Sets matched vector numbers
@@ -83,10 +87,19 @@ int Code::checkIncorrect( Code& guessDigits)
                     incorrectLocationDigits++;
                     j = guessVector.size();
                 }
+
+            //end of if statement to determine if digits match
             }
+
+        //end of for loop to go through each guess digit
         }
+
+    //end of for loop to go through each code digit
     }
+
     return incorrectLocationDigits;
+
+//end of checkIncorrect function
 }
 
 void Code::set(int newN, int newM)
@@ -117,19 +130,22 @@ void printCodeDigits(Code viewingCode)
 //prints the code vector in a readable format
 {
     cout << "(";
-    for(int i=0; i<viewingCode.getCode().size(); ++i)
+
+    for(int i = 0; i < viewingCode.getCode().size(); ++i)
     {
-        cout << viewingCode.getCode()[i];
-        if (i != viewingCode.getCode().size()-1){
+       cout << viewingCode.getCode()[i];
+        if (i != viewingCode.getCode().size() - 1)
+        {
             cout << ", ";
         }
     }
+
     cout << ")" << endl;
+//end of printCodeDigits
 }
 
 void Code::checkGuess( Code& guessCode)
-//checks both incorrect and correct location
-//of the guess integers, then prints result
+//prints out the results of checkCorrent and checkIncorrect
 {
     cout << "(" << checkCorrect(guessCode);
     cout << ", " << checkIncorrect(guessCode);
@@ -163,13 +179,19 @@ int main(){
     sampleGuess2.setCodeDigits("21222");
     sampleGuess3.setCodeDigits("13345");
 
+
     //check the guess codes against the computerCode
+    printCodeDigits(sampleGuess1);
     computerCode.checkGuess(sampleGuess1);
+    printCodeDigits(sampleGuess2);
     computerCode.checkGuess(sampleGuess2);
+    printCodeDigits(sampleGuess3);
     computerCode.checkGuess(sampleGuess3);
 
     //Let the user know the code finished executing
     cout << "Done" << endl;
 
     return 0;
+
+//end of main function
 }
