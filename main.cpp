@@ -69,6 +69,7 @@ int Code::checkCorrect(Code& guessDigits)
        }
    }
    return numberCorrect;
+//end of checkCorrect function
 }
 
 //returns the  number of correct digits in the incorrect location
@@ -77,16 +78,20 @@ int Code::checkIncorrect( Code& guessDigits)
     vector<int> guessVector = guessDigits.getCode();
     vector<int> codeVector = getCode();
     int incorrectLocationDigits = 0;
+
     for(int i = 0; i < codeVector.size(); i++)
     //for each digit in codeDigits
     {
+
         for(int j = 0; j < guessVector.size(); j++)
         //for each digit in guessDigits
         {
+
             if(codeVector[i] == guessVector[j])
             //increments incorrectDigits if digit is in code and guess, but not right place
             //replaces
             {
+
                 if (i == j)
                 {
                     //cout << "\ni == j : position(" << i << ", " << j << ") - Value: (" << codeVector[i] << " == " << guessVector[j] << ")" << endl;
@@ -102,16 +107,26 @@ int Code::checkIncorrect( Code& guessDigits)
                     incorrectLocationDigits++;
                     j = guessVector.size();
                 }
+
+            //end of if statement to determine if digits match
             }
+
+        //end of for loop to go through each guess digit
         }
+
+    //end of for loop to go through each code digit
     }
+
     return incorrectLocationDigits;
+
+//end of checkIncorrect function
 }
 
 void printCodeDigits(Code viewingCode)
 //prints out the code
 {
     cout << "(";
+
     for(int i = 0; i < viewingCode.getCode().size(); ++i)
     {
        cout << viewingCode.getCode()[i];
@@ -120,7 +135,9 @@ void printCodeDigits(Code viewingCode)
             cout << ", ";
         }
     }
+
     cout << ")" << endl;
+//end of printCodeDigits
 }
 
 void Code::checkGuess( Code& guessCode)
@@ -176,4 +193,6 @@ int main()
     cout << "Done" << endl;
 
     return 0;
+
+//end of main function
 }
