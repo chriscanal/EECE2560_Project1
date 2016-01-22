@@ -34,7 +34,7 @@ class Code
         std::vector<int> getCode();
 
         //initialize random variables
-        std::vector<int> randomInit();
+        void randomInit();
 
         //Checks how many integers are in the correct location
         int checkCorrect( Code& guessDigits);

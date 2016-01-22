@@ -27,7 +27,7 @@ Code::Code(int newN, int newM)
     set(newN, newM);
 }
 
-vector<int> Code::randomInit()
+void Code::randomInit()
 //initializes a random string of digits to be used as the code
 {
     for(int i = 0; i < n; i++)
