@@ -2,13 +2,14 @@
 //  Code.h
 //  Code
 //
-//  Created by Chris Canal and Sarada Symonds on 01/16/2016.
+//  Created by Chris Canal and Sarada Symonds on 01-16-2016.
 //
 
 #ifndef Code_Code_h
 #define Code_Code_h
 
 #include <iostream>
+#include <vector>
 
 //code class declaration
 class Code
@@ -22,17 +23,17 @@ class Code
         Code(int newN, int newM);
 
         //n and m setter
-        set(int newN, int newM);
+        void set(int newN, int newM);
 
-        setCodeDigits(const std::string &guess);
+        void setCodeDigits(const std::string &guess);
 
         //accessor, does not change data
-        getCode();
+        std::vector<int> getCode();
 
         //initialize random variables
-        void randomInit();
+        std::vector<int> randomInit();
 
-        checkCorrect( const Code& guessDigits);
+        int checkCorrect( const Code& guessDigits);
 
         int checkIncorrect( const Code& guessDigits);
 
@@ -47,5 +48,7 @@ class Code
         int m;
 
         //code
-        std::vector <int> codeDigits;
-}
+        std::vector<int> codeDigits;
+};
+
+#endif

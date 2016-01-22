@@ -13,45 +13,20 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
 
-int main {
-
-    int n = 5;            //n is the number of digits
-    int m = 7;            //m is the range of the guess
-
-    //secrete code object
-    Code computerCode(n, m);
-
-    //initializing a random string of integers for computerCode
-    computerCode.randomInit();
-
-    //instances of Code for testing
-    Code sampleGuess1;
-    Code sampleGuess2;
-    Code sampleGuess3;
-
-    //setting the codeDigits of each sample Code
-    sampleGuess1.setCodeDigits("50326");
-    sampleGuess2.setCodeDigits("21222");
-    sampleGuess3.setCodeDigits("13345");
-
-    //
-
-    return 0;
-}
-
-vector Code::randomInit()
+vector<int> Code::randomInit()
 //initializes a random string of digits to be used as the code
 {
     for(int i = 0; i <= n; i++)
     //for each digit n, will add a random digit
     {
         //inserts an additional random digit to codeDigits
-        codeDigits.push_back(std::rand() % (m-1) + 0);
+        codeDigits.push_back(rand() % (m-1) + 0);
     }
 }
 
-void Code::Code(int newN, int newM)
+Code::Code(int newN, int newM)
 //constructor for range and length of the code
 {
     set(newN, newM);
@@ -64,7 +39,7 @@ void Code::set(int newN, int newM)
     m = newM;
 }
 
-void Code::setCodeDigits(const std::string &guess)
+void Code::setCodeDigits(const string &guess)
 //adds an integer to codeDigits
 {
     for(int i = 0; i <= guess.length(); i++)
@@ -74,23 +49,25 @@ void Code::setCodeDigits(const std::string &guess)
     }
 }
 
-vector Code::getCode()
+vector<int> Code::getCode()
 {
     return codeDigits;
 }
 
-int Code::checkCorrect( Code guessDigits ){
+int Code::checkCorrect( const Code& guessDigits){
    int numberCorrect = 0;
    for(int i = 0; i <= guessDigits.codeDigits.size(); i++)
    {
-       if ( guessDigits.codeDigits[i] == codeDigits[i]){
+       if ( guessDigits.codeDigits[i] == codeDigits[i] )
+       {
            numberCorrect += 1;
+       }
    }
    return numberCorrect;
 }
 
-int Code::checkIncorrect( Code guessDigits)
 //returns the  number of correct digits in the incorrect location
+int Code::checkIncorrect( const Code& guessDigits)
 {
     int incorrectDigits = 0;
     for(int i=0; i<=n; i++)
@@ -104,7 +81,6 @@ int Code::checkIncorrect( Code guessDigits)
             //replaces
             {
                 incorrectDigits++;
-                guessDigits.codeDigits[j] = -1;
                 break;
             }
         }
@@ -117,9 +93,9 @@ int Code::checkIncorrect( Code guessDigits)
 void printCodeDigits(Code viewingCode)
 {
     cout << "(";
-    for(int i=0; i<viewingCode.codeDigits.size(); ++i)
+    for(int i=0; i<viewingCode.getCode().size(); ++i)
     {
-        std::cout << viewingCode.codeDigits[i] << ', ';
+        cout << viewingCode.getCode()[i] << ", " ;
     }
     cout << ")" << endl;
 }
@@ -141,4 +117,34 @@ void askUserForDigits(Code& computerCode)
 void printCheckCorrectandCheckIncorrect(Code& code)
 {
 
+}
+
+Code::Code(){
+    
+}
+
+int main(){
+
+    int n = 5;            //n is the number of digits
+    int m = 7;            //m is the range of the guess
+
+    //secrete code object
+    Code computerCode(n, m);
+
+    //initializing a random string of integers for computerCode
+    computerCode.randomInit();
+
+    //instances of Code for testing
+    Code sampleGuess1;
+    Code sampleGuess2;
+    Code sampleGuess3;
+
+    //setting the codeDigits of each sample Code
+    sampleGuess1.setCodeDigits("50326");
+    sampleGuess2.setCodeDigits("21222");
+    sampleGuess3.setCodeDigits("13345");
+
+    cout << "Hello Chris" << endl;
+
+    return 0;
 }
