@@ -42,7 +42,7 @@ void Code::set(int newN, int newM)
 void Code::setCodeDigits(const string &guess)
 //adds an integer to codeDigits
 {
-    for(int i = 0; i <= guess.length(); i++)
+    for(int i = 0; i < guess.length(); i++)
     //adds each number in guess to codeDigits
     {
         codeDigits.push_back(guess[i]);
@@ -120,7 +120,8 @@ void printCheckCorrectandCheckIncorrect(Code& code)
 }
 
 Code::Code(){
-    
+    n = 0;
+    m = 0;
 }
 
 int main(){
@@ -144,6 +145,9 @@ int main(){
     sampleGuess2.setCodeDigits("21222");
     sampleGuess3.setCodeDigits("13345");
 
+    for (int i = 0; i < sampleGuess1.getCode().size(); i++){
+        cout << "Digit Number" << sampleGuess1.getCode()[i] << endl;
+    }
     cout << "Hello Chris" << endl;
 
     return 0;
