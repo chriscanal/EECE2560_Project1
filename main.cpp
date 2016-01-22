@@ -1,13 +1,11 @@
-// Homework 1                                     Chris Canal
-//                                                canal.c@husky.neu.edu
+// main.cpp
+// Problem Set 1A                                 Chris Canal
+// Team cansym                                    canal.c@husky.neu.edu
 //                                                Sarada Symonds
 //                                                symonds.s@husky.neu.edu
 //
 // Main program file for homework 1. Contains declarations for
 // randomInit, checkCorect, and checkIncorect.
-//
-
-//comments to the side for variables
 
 #include "Code.h"
 #include <iostream>
@@ -15,6 +13,13 @@
 #include <time.h>    //for making rand() more random
 
 using namespace std;
+
+Code::Code()
+//default constructor
+{
+    n = 0;
+    m = 0;
+}
 
 Code::Code(int newN, int newM)
 //constructor for range and length of the code
@@ -34,6 +39,56 @@ vector<int> Code::randomInit()
     }
 }
 
+int Code::checkCorrect( Code& guessDigits)
+//returns the  number of correct digits in the correct location
+{
+   int numberCorrect = 0;
+   for(int i = 0; i < guessDigits.codeDigits.size(); i++)
+   {
+       if ( guessDigits.codeDigits[i] == codeDigits[i] )
+       {
+           numberCorrect += 1;
+       }
+   }
+   return numberCorrect;
+}
+
+
+int Code::checkIncorrect( Code& guessDigits)
+//returns the  number of correct digits in the incorrect location
+{
+    vector<int> guessVector = guessDigits.getCode();
+    vector<int> codeVector = getCode();
+    int incorrectLocationDigits = 0;
+    for(int i=0; i < codeVector.size(); i++)
+    //for each digit in codeDigits
+    {
+        for(int j=0; j < guessVector.size(); j++)
+        //for each digit in guessDigits
+        {
+            if(codeVector[i] == guessVector[j])
+            //increments incorrectDigits if digit is in code
+            //but not right place. Sets matched vector numbers
+            //to -1 so that they will not match with other ints
+            {
+                if (i == j){
+                    codeVector[i] = -1;
+                    guessVector[j] = -1;
+                    j = guessVector.size();
+                }
+                else
+                {
+                    codeVector[i] = -1;
+                    guessVector[j] = -1;
+                    incorrectLocationDigits++;
+                    j = guessVector.size();
+                }
+            }
+        }
+    }
+    return incorrectLocationDigits;
+}
+
 void Code::set(int newN, int newM)
 //sets the range and length of the code
 {
@@ -47,64 +102,19 @@ void Code::setCodeDigits(const string &guess)
     for(int i = 0; i < guess.length(); i++)
     //adds each number in guess to codeDigits
     {
+        //Subtract 48 to convert from ASCII to Integer
         codeDigits.push_back(guess[i]-48);
     }
 }
 
 vector<int> Code::getCode()
+//returns the code vector
 {
     return codeDigits;
 }
 
-int Code::checkCorrect( Code& guessDigits){
-   int numberCorrect = 0;
-   for(int i = 0; i < guessDigits.codeDigits.size(); i++)
-   {
-       if ( guessDigits.codeDigits[i] == codeDigits[i] )
-       {
-           numberCorrect += 1;
-       }
-   }
-   return numberCorrect;
-}
-
-//returns the  number of correct digits in the incorrect location
-int Code::checkIncorrect( Code& guessDigits)
-{
-    vector<int> guessVector = guessDigits.getCode();
-    vector<int> codeVector = getCode();
-    int incorrectLocationDigits = 0;
-    for(int i=0; i < codeVector.size(); i++)
-    //for each digit in codeDigits
-    {
-        for(int j=0; j < guessVector.size(); j++)
-        //for each digit in guessDigits
-        {
-            if(codeVector[i] == guessVector[j])
-            //increments incorrectDigits if digit is in code and guess, but not right place
-            //replaces
-            {
-                if (i == j){
-                    cout << "\ni == j : position(" << i << ", " << j << ") - Value: (" << codeVector[i] << " == " << guessVector[j] << ")" << endl;
-                    codeVector[i] = -1;
-                    guessVector[j] = -1;
-                    j = guessVector.size();
-                }
-                else
-                {
-                    cout << "\ni != j : position(" << i << ", " << j << ") - Value: (" << codeVector[i] << " == " << guessVector[j] << ")" << endl;
-                    codeVector[i] = -1;
-                    guessVector[j] = -1;
-                    incorrectLocationDigits++;
-                    j = guessVector.size();
-                }
-            }
-        }
-    }
-    return incorrectLocationDigits;
-}
-
 void printCodeDigits(Code viewingCode)
+//prints the code vector in a readable format
 {
     cout << "(";
     for(int i=0; i<viewingCode.getCode().size(); ++i)
@@ -118,15 +128,12 @@ void printCodeDigits(Code viewingCode)
 }
 
 void Code::checkGuess( Code& guessCode)
+//checks both incorrect and correct location
+//of the guess integers, then prints result
 {
     cout << "(" << checkCorrect(guessCode);
     cout << ", " << checkIncorrect(guessCode);
     cout << ")" << endl;
-}
-
-Code::Code(){
-    n = 0;
-    m = 0;
 }
 
 int main(){
@@ -135,30 +142,33 @@ int main(){
     int n = 5;            //n is the number of digits
     int m = 5;            //m is the range of the guess
 
-    //secrete code object
+    //initialize secrete code object
     Code computerCode(n, m);
 
     //initializing a random string of integers for computerCode
     computerCode.randomInit();
+
+    //print the randomly generated code
     cout << "Random Code Generated: ";
     printCodeDigits(computerCode);
 
 
-    //instances of Code for testing
+    //initialize instances of the Code class for testing
     Code sampleGuess1;
     Code sampleGuess2;
     Code sampleGuess3;
 
-    //setting the codeDigits of each sample Code
+    //set the codeDigits of each sample Code
     sampleGuess1.setCodeDigits("50326");
     sampleGuess2.setCodeDigits("21222");
     sampleGuess3.setCodeDigits("13345");
 
-    //checking the guess codes against the computerCode
+    //check the guess codes against the computerCode
     computerCode.checkGuess(sampleGuess1);
     computerCode.checkGuess(sampleGuess2);
     computerCode.checkGuess(sampleGuess3);
 
+    //Let the user know the code finished executing
     cout << "Done" << endl;
 
     return 0;

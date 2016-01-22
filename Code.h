@@ -1,9 +1,11 @@
+// Code.h
+// Problem Set 1A                                 Chris Canal
+// Team cansym                                    canal.c@husky.neu.edu
+//                                                Sarada Symonds
+//                                                symonds.s@husky.neu.edu
 //
-//  Code.h
-//  Code
-//
-//  Created by Chris Canal and Sarada Symonds on 01-16-2016.
-//
+// Class header file for homework 1. Contains
+// declarations for the Code Class
 
 #ifndef Code_Code_h
 #define Code_Code_h
@@ -11,8 +13,8 @@
 #include <iostream>
 #include <vector>
 
-//code class declaration
 class Code
+//code class declaration
 {
     public:
 
@@ -25,6 +27,7 @@ class Code
         //n and m setter
         void set(int newN, int newM);
 
+        //sets the code digits from a string
         void setCodeDigits(const std::string &guess);
 
         //accessor, does not change data
@@ -33,10 +36,13 @@ class Code
         //initialize random variables
         std::vector<int> randomInit();
 
+        //Checks how many integers are in the correct location
         int checkCorrect( Code& guessDigits);
 
+        //Checks how many integers are in the incorrect location
         int checkIncorrect( Code& guessDigits);
 
+        //Runs checkIncorrect and checkCorrect and prints result
         void checkGuess( Code& guessCode);
 
 
