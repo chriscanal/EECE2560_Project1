@@ -8,6 +8,7 @@
 
 #include "Code.h"
 #include "Response.h"
+#include "Mastermind.h"
 #include <iostream>
 #include <vector>
 #include <time.h>    //for making rand() more random
@@ -15,6 +16,13 @@
 using namespace std;
 
 
+//------------Global Operator Overloading (MUST GO FIRST)---------------
+ostream&  operator << (ostream & ostr, Response responseObj)
+{
+    ostr << "(" << responseObj.getCorrect() << ", " << responseObj.getIncorrect() << ")";
+
+    return ostr;
+}
 
 //---------------------Code Class Functions-----------------
 
@@ -29,6 +37,12 @@ Code::Code(int newN, int newM)
 //constructor for range and length of the code
 {
     set(newN, newM);
+}
+
+int Code::getN()
+//returns number of digits in the code
+{
+  return n;
 }
 
 void Code::randomInit()
@@ -200,6 +214,102 @@ bool operator == ( Response & response1, Response & response2)
     return (response1.getCorrect() == response2.getCorrect()) && (response1.getIncorrect() == response2.getIncorrect());
 }
 
+//---------------------Mastermind Class Functions-----------------
+
+Mastermind::Mastermind()
+//default constructor
+{
+  secretCode.set(5, 10);
+}
+
+Mastermind::Mastermind(int newN, int newM)
+//constructor for the mastermind class
+{
+  secretCode.set(newN, newM);
+}
+
+void Mastermind::printSecretCode()
+//prints the secret code from the mastermind object
+{
+  cout << "Secret Code: (";
+
+  for(int i = 0; i < secretCode.getCode().size(); ++i)
+  {
+     cout << secretCode.getCode()[i];
+      if (i != secretCode.getCode().size() - 1)
+      {
+          cout << ", ";
+      }
+  }
+
+  cout << ")" << endl;
+}
+
+Code Mastermind::humanGuess()
+//reads a guess from the keyboard and returns guess as Code object
+{
+  Code guessCode;
+  string guessString;
+  cout << "\nPlease enter your guess, numbers only please:" << endl;
+  cin >> guessString;
+  guessCode.setCodeDigits(guessString);
+
+  return guessCode;
+}
+
+Response Mastermind::getResponse(Code & guessCode, Code & secretCode)
+//Compares two codes and gets response
+{
+    Response codeResponse;
+    codeResponse.setCorrect(secretCode.checkCorrect(guessCode));
+    codeResponse.setIncorrect(secretCode.checkIncorrect(guessCode));
+
+    return codeResponse;
+}
+
+bool Mastermind::isSolved(Response responseObj)
+//Checks the Response obj to see if it the code is solved
+
+// Instructions: Create a function isSolved() that is passed a response and returns
+// true if the response indicates that the board has been solved.
+{
+
+    return responseObj.getCorrect() == secretCode.getN();
+
+}
+
+int Mastermind::playGame()
+// Instructions: Initializes a random code, prints it to the screen, and then
+// iteratively gets a guess from the user and prints the response until either the codemaker
+// or the codebreaker has won.
+{
+    Mastermind newGame;
+    newGame.secretCode.randomInit();
+    newGame.printSecretCode();
+
+    Code userGuessCode;
+    Response userResponse;
+    for (int i = 0; i < 10; i++)
+    {
+        userGuessCode = newGame.humanGuess();
+        userResponse = newGame.getResponse(userGuessCode, newGame.secretCode);
+        cout << userResponse << endl;
+        if (newGame.isSolved(userResponse))
+        {
+            cout << "\nCongradulations! You have guessed correctly! \nEXITING GAME..." << endl;
+            i = 10;
+        }
+        else
+        {
+            cout << "\nPlease guess again...";
+        }
+        if (i == 9)
+        {
+            cout << "Wait. Actually...\nThat was your last guess. \nSorry\nYOU LOOSE";
+        }
+    }
+    return 0;
+}
 
 //---------------------  Free Functions   ----------------------
 
@@ -221,53 +331,11 @@ void printCodeDigits(Code viewingCode)
 //end of printCodeDigits
 }
 
-ostream&  operator << (ostream & ostr, Response responseObj)
-{
-    ostr << "(" << responseObj.getCorrect() << ", " << responseObj.getIncorrect() << ")";
-
-    return ostr;
-}
-
 int main()
 {
     srand (time(NULL));   //Uses time to make rand more random
-
-    int n = 5;            //n is the number of digits
-    int m = 5;            //m is the range of the guess
-
-    //initialize secrete code object
-    Code computerCode(n, m);
-
-    //initializing a random string of integers for computerCode
-    computerCode.randomInit();
-
-    //print the randomly generated code
-    cout << "Random Code Generated: ";
-    printCodeDigits(computerCode);
-
-
-    //initialize instances of the Code class for testing
-    Code sampleGuess1;
-    Code sampleGuess2;
-    Code sampleGuess3;
-
-    //set the codeDigits of each sample Code
-    sampleGuess1.setCodeDigits("50326");
-    sampleGuess2.setCodeDigits("21222");
-    sampleGuess3.setCodeDigits("13345");
-
-    //check the guess codes against the computerCode
-    printCodeDigits(sampleGuess1);
-    computerCode.checkGuess(sampleGuess1);
-    printCodeDigits(sampleGuess2);
-    computerCode.checkGuess(sampleGuess2);
-    printCodeDigits(sampleGuess3);
-    computerCode.checkGuess(sampleGuess3);
-
-    //Let the user know the code finished executing
-    cout << "Done" << endl;
-
-    return 0;
+    Mastermind theGame;
+    return theGame.playGame();
 
 //end of main function
 }

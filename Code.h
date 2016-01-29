@@ -4,7 +4,7 @@
 //                                                Sarada Symonds
 //                                                symonds.s@husky.neu.edu
 //
-// Class header file for homework 1. Contains
+// Class header file for homework 1b. Contains
 // declarations for the Code Class
 
 #ifndef Code_Code_h
@@ -26,6 +26,9 @@ class Code
 
         //n and m setter
         void set(int newN, int newM);
+
+        //getter for n
+        int getN();
 
         //sets the code digits from a string
         void setCodeDigits(const std::string &guess);
