@@ -262,18 +262,6 @@ Code Mastermind::humanGuess()
   cin >> guessString;
   guessCode.setCodeDigits(guessString);
 
-  /*if (guessString.length() == secretCode.getN())
-  {
-    guessCode.setCodeDigits(guessString);
-  }
-  else
-  {
-    cout << "You entered too many (or too little) digits!";
-    cout << " Please limit your guess to ";
-    cout << secretCode.getN() << " digits." << endl;
-    humanGuess();
-  } */
-
   cout << "Guess Code: (";
 
   for(int i = 0; i < guessCode.getCode().size(); ++i)
@@ -314,9 +302,10 @@ bool Mastermind::isSolved(Response responseObj)
 }
 
 int Mastermind::playGame()
+// the game of mastermind
 // Instructions: Initializes a random code, prints it to the screen, and then
-// iteratively gets a guess from the user and prints the response until either the codemaker
-// or the codebreaker has won.
+// iteratively gets a guess from the user and prints the response until either
+// the codemaker or the codebreaker has won.
 {
     Mastermind newGame;
     newGame.secretCode.randomInit();
@@ -332,10 +321,15 @@ int Mastermind::playGame()
         userResponse = newGame.getResponse(userGuessCode, newGame.secretCode);
         cout << userResponse << endl;
 
-        if (newGame.isSolved(userResponse))
+        int secretCodeSize = newGame.secretCode.getCode().size();
+        int guessCodeSize = userGuessCode.getCode().size();
+
+        bool isCodeSize =  guessCodeSize == secretCodeSize;
+
+        if (newGame.isSolved(userResponse) && isCodeSize)
         //checks if user guess was correct and ends for loop if it is
         {
-            cout << "\nCongradulations! You have guessed correctly!\n";
+            cout << "\nCongratulations! You have guessed correctly!\n";
             cout << "EXITING GAME..." << endl;
             i = 10;
         }
@@ -374,6 +368,7 @@ void printCodeDigits(Code viewingCode)
     }
 
     cout << ")" << endl;
+    
 //end of printCodeDigits
 }
 
