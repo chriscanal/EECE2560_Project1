@@ -112,7 +112,6 @@ int Code::checkIncorrect( Code& guessDigits) const
                 {
                   cout << "\nposition i = " << i << "   (i!=J) - codeVector: " << codeVector[i];
                   cout << "   position j = " << j << "   guessVector :" << guessVector[j];
-
                     if (codeVector.at(i) != guessVector.at(i) && codeVector.at(j) != guessVector.at(j))
                     {
                       codeVector[i] = -1;
@@ -268,9 +267,22 @@ Code Mastermind::humanGuess()
 //reads a guess from the keyboard and returns guess as Code object
 {
   Code guessCode;
-  string guessString;
-  cout << "\nPlease enter your guess, numbers only please:" << endl;
-  cin >> guessString;
+  string guessString = "EMPTY";
+
+  while(guessString == "EMPTY")
+  {
+      cout << "\nPlease enter your guess, numbers only please:" << endl;
+      cin >> guessString;
+
+      if (guessString.length() != secretCode.getCode().size())
+      {
+          cout << "\nWrong size! Please enter a sequence of numbers of length ";
+          cout << secretCode.getCode().size();
+          guessString = "EMPTY";
+      }
+
+  }
+
   guessCode.setCodeDigits(guessString);
 
   cout << "Guess Code: (";
