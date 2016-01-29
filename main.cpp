@@ -102,18 +102,18 @@ int Code::checkIncorrect( Code& guessDigits) const
             //to -1 so that they will not match with other ints
             {
                 if (i == j){
-                    cout << "\nposition" << i << "   (i=J) - codeVector: " << codeVector[i];
-                    cout << "   position j" << j << "   guessVector :" << guessVector[j];
+                    cout << "\nposition i = " << i << "   (i=J) - codeVector: " << codeVector[i];
+                    cout << "   position j = " << j << "   guessVector :" << guessVector[j];
                     codeVector[i] = -1;
                     guessVector[j] = -1;
                     j = guessVector.size();
                 }
                 else
                 {
-                  cout << "\nposition i=" << i << "   (i!=J) - codeVector: " << codeVector[i];
-                  cout << "   position j=" << j << "   guessVector :" << guessVector[j];
+                  cout << "\nposition i = " << i << "   (i!=J) - codeVector: " << codeVector[i];
+                  cout << "   position j = " << j << "   guessVector :" << guessVector[j];
 
-                    if (codeVector[i] != guessVector[i] && codeVector[j] != guessVector[j])
+                    if (codeVector.at(i) != guessVector.at(i) && codeVector.at(j) != guessVector.at(j))
                     {
                       codeVector[i] = -1;
                       guessVector[j] = -1;
