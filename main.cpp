@@ -86,7 +86,6 @@ int Code::checkIncorrect( Code& guessDigits) const
     vector<int> guessVector = guessDigits.getCode();
     vector<int> codeVector = getCode();
     int incorrectLocationDigits = 0;
-    cout << "\nVector Sizes: guess-" << guessVector.size() << ", code-" << codeVector.size();
 
     for(int i = 0; i < codeVector.size(); i++)
     //for each digit in codeDigits
@@ -101,18 +100,21 @@ int Code::checkIncorrect( Code& guessDigits) const
             //but not right place. Sets matched vector numbers
             //to -1 so that they will not match with other ints
             {
-                if (i == j){
-                    cout << "\nposition i = " << i << "   (i=J) - codeVector: " << codeVector[i];
-                    cout << "   position j = " << j << "   guessVector :" << guessVector[j];
+
+                if (i == j)
+                //if digits in codeVector and guessVector are in same position
+                {
                     codeVector[i] = -1;
                     guessVector[j] = -1;
                     j = guessVector.size();
                 }
                 else
+                //if digits are not in same position
                 {
-                  cout << "\nposition i = " << i << "   (i!=J) - codeVector: " << codeVector[i];
-                  cout << "   position j = " << j << "   guessVector :" << guessVector[j];
-                    if (codeVector.at(i) != guessVector.at(i) && codeVector.at(j) != guessVector.at(j))
+                    bool isPosSameI = codeVector.at(i) != guessVector.at(i);
+                    bool isPosSameJ = codeVector.at(j) != guessVector.at(j);
+
+                    if ( isPosSameI && isPosSameJ)
                     {
                       codeVector[i] = -1;
                       guessVector[j] = -1;
@@ -120,6 +122,7 @@ int Code::checkIncorrect( Code& guessDigits) const
                       j = guessVector.size();
                     }
 
+                //end of else statement for digit positions
                 }
 
             //end of if statement to determine if digits match
@@ -130,7 +133,6 @@ int Code::checkIncorrect( Code& guessDigits) const
 
     //end of for loop to go through each code digit
     }
-    cout << "\n";
 
     return incorrectLocationDigits;
 
@@ -224,9 +226,9 @@ int Response::getIncorrect()
 //operator overload to compare two Response objects
 bool operator == ( Response & response1, Response & response2)
 {
-    bool getCorrectBool = response1.getCorrect() == response2.getCorrect();
-    bool getIncorrectBool = response1.getIncorrect() == response2.getIncorrect();
-    return ( getCorrectBool && getIncorrectBool);
+    bool getCorBool = response1.getCorrect() == response2.getCorrect();
+    bool getIncorBool = response1.getIncorrect() == response2.getIncorrect();
+    return (getCorBool && getIncorBool);
 }
 
 //---------------------Mastermind Class Functions-----------------
@@ -281,6 +283,7 @@ Code Mastermind::humanGuess()
           guessString = "EMPTY";
       }
 
+  // end of while string - while string is "EMPTY"
   }
 
   guessCode.setCodeDigits(guessString);
@@ -314,21 +317,13 @@ Response Mastermind::getResponse(Code & guessCode, Code & secretCode)
 }
 
 bool Mastermind::isSolved(Response responseObj)
-//Checks the Response obj to see if it the code is solved
-
-// Instructions: Create a function isSolved() that is passed a response and
-// returns true if the response indicates that the board has been solved.
+// Checks the Response obj to see if it the code is solved
 {
-
     return responseObj.getCorrect() == secretCode.getN();
-
 }
 
 int Mastermind::playGame()
-// the game of mastermind
-// Instructions: Initializes a random code, prints it to the screen, and then
-// iteratively gets a guess from the user and prints the response until either
-// the codemaker or the codebreaker has won.
+// initiates a game of mastermind
 {
     secretCode.randomInit();
     printSecretCode();
@@ -399,6 +394,4 @@ int main()
     srand (time(NULL));   //Uses time to make rand more random
     Mastermind theGame;
     return theGame.playGame();
-
-//end of main function
 }
