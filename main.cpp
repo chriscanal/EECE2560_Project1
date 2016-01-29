@@ -19,7 +19,8 @@ using namespace std;
 //------------Global Operator Overloading (MUST GO FIRST)---------------
 ostream&  operator << (ostream & ostr, Response responseObj)
 {
-    ostr << "(" << responseObj.getCorrect() << ", " << responseObj.getIncorrect() << ")";
+    ostr << "(" << responseObj.getCorrect() << ", ";
+    ostr << responseObj.getIncorrect() << ")";
 
     return ostr;
 }
@@ -64,6 +65,7 @@ int Code::checkCorrect( Code& guessDigits) const
    int numberCorrect = 0;
 
    for(int i = 0; i < guessDigits.getCode().size(); i++)
+   //compare each digit in the guess to the digits in the secret code
    {
 
        if (guessDigits.getCode()[i] == getCode()[i])
@@ -141,6 +143,7 @@ void Code::setCodeDigits(const string &guess)
         //Subtract 48 to convert from ASCII to Integer
         codeDigits.push_back(guess[i] - 48);
     }
+
 }
 
 vector<int> Code::getCode() const
@@ -211,7 +214,9 @@ int Response::getIncorrect()
 //operator overload to compare two Response objects
 bool operator == ( Response & response1, Response & response2)
 {
-    return (response1.getCorrect() == response2.getCorrect()) && (response1.getIncorrect() == response2.getIncorrect());
+    bool getCorrectBool = response1.getCorrect() == response2.getCorrect();
+    bool getIncorrectBool = response1.getIncorrect() == response2.getIncorrect();
+    return ( getCorrectBool && getIncorrectBool);
 }
 
 //---------------------Mastermind Class Functions-----------------
@@ -234,6 +239,7 @@ void Mastermind::printSecretCode()
   cout << "Secret Code: (";
 
   for(int i = 0; i < secretCode.getCode().size(); ++i)
+  //prints out secret code
   {
      cout << secretCode.getCode()[i];
       if (i != secretCode.getCode().size() - 1)
@@ -243,6 +249,8 @@ void Mastermind::printSecretCode()
   }
 
   cout << ")" << endl;
+
+//end of Mastermind member function printSecretCode
 }
 
 Code Mastermind::humanGuess()
@@ -254,7 +262,34 @@ Code Mastermind::humanGuess()
   cin >> guessString;
   guessCode.setCodeDigits(guessString);
 
+  /*if (guessString.length() == secretCode.getN())
+  {
+    guessCode.setCodeDigits(guessString);
+  }
+  else
+  {
+    cout << "You entered too many (or too little) digits!";
+    cout << " Please limit your guess to ";
+    cout << secretCode.getN() << " digits." << endl;
+    humanGuess();
+  } */
+
+  cout << "Guess Code: (";
+
+  for(int i = 0; i < guessCode.getCode().size(); ++i)
+  {
+     cout << guessCode.getCode()[i];
+      if (i != guessCode.getCode().size() - 1)
+      {
+          cout << ", ";
+      }
+  }
+
+  cout << ")" << endl;
+
   return guessCode;
+
+//end of Mastermind member function humanGuess
 }
 
 Response Mastermind::getResponse(Code & guessCode, Code & secretCode)
@@ -270,8 +305,8 @@ Response Mastermind::getResponse(Code & guessCode, Code & secretCode)
 bool Mastermind::isSolved(Response responseObj)
 //Checks the Response obj to see if it the code is solved
 
-// Instructions: Create a function isSolved() that is passed a response and returns
-// true if the response indicates that the board has been solved.
+// Instructions: Create a function isSolved() that is passed a response and
+// returns true if the response indicates that the board has been solved.
 {
 
     return responseObj.getCorrect() == secretCode.getN();
@@ -289,25 +324,36 @@ int Mastermind::playGame()
 
     Code userGuessCode;
     Response userResponse;
+
     for (int i = 0; i < 10; i++)
+    //allows user to input 10 guesses
     {
         userGuessCode = newGame.humanGuess();
         userResponse = newGame.getResponse(userGuessCode, newGame.secretCode);
         cout << userResponse << endl;
+
         if (newGame.isSolved(userResponse))
+        //checks if user guess was correct and ends for loop if it is
         {
-            cout << "\nCongradulations! You have guessed correctly! \nEXITING GAME..." << endl;
+            cout << "\nCongradulations! You have guessed correctly!\n";
+            cout << "EXITING GAME..." << endl;
             i = 10;
         }
         else
         {
             cout << "\nPlease guess again...";
         }
+
         if (i == 9)
+        //checks tht this is the last round and prints message
         {
-            cout << "Wait. Actually...\nThat was your last guess. \nSorry\nYOU LOOSE";
+            cout << "Wait. Actually...\nThat was your last guess.\n";
+            cout << "Sorry\nYOU LOSE\n";
         }
+
+    //end of for loop for 10 guesses
     }
+
     return 0;
 }
 
