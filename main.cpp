@@ -86,6 +86,7 @@ int Code::checkIncorrect( Code& guessDigits) const
     vector<int> guessVector = guessDigits.getCode();
     vector<int> codeVector = getCode();
     int incorrectLocationDigits = 0;
+    cout << "\nVector Sizes: guess-" << guessVector.size() << ", code-" << codeVector.size();
 
     for(int i = 0; i < codeVector.size(); i++)
     //for each digit in codeDigits
@@ -101,16 +102,25 @@ int Code::checkIncorrect( Code& guessDigits) const
             //to -1 so that they will not match with other ints
             {
                 if (i == j){
+                    cout << "\nposition" << i << "   (i=J) - codeVector: " << codeVector[i];
+                    cout << "   position j" << j << "   guessVector :" << guessVector[j];
                     codeVector[i] = -1;
                     guessVector[j] = -1;
                     j = guessVector.size();
                 }
                 else
                 {
-                    codeVector[i] = -1;
-                    guessVector[j] = -1;
-                    incorrectLocationDigits++;
-                    j = guessVector.size();
+                  cout << "\nposition i=" << i << "   (i!=J) - codeVector: " << codeVector[i];
+                  cout << "   position j=" << j << "   guessVector :" << guessVector[j];
+
+                    if (codeVector[i] != guessVector[i] && codeVector[j] != guessVector[j])
+                    {
+                      codeVector[i] = -1;
+                      guessVector[j] = -1;
+                      incorrectLocationDigits++;
+                      j = guessVector.size();
+                    }
+
                 }
 
             //end of if statement to determine if digits match
@@ -121,6 +131,7 @@ int Code::checkIncorrect( Code& guessDigits) const
 
     //end of for loop to go through each code digit
     }
+    cout << "\n";
 
     return incorrectLocationDigits;
 
@@ -307,9 +318,8 @@ int Mastermind::playGame()
 // iteratively gets a guess from the user and prints the response until either
 // the codemaker or the codebreaker has won.
 {
-    Mastermind newGame;
-    newGame.secretCode.randomInit();
-    newGame.printSecretCode();
+    secretCode.randomInit();
+    printSecretCode();
 
     Code userGuessCode;
     Response userResponse;
@@ -317,16 +327,16 @@ int Mastermind::playGame()
     for (int i = 0; i < 10; i++)
     //allows user to input 10 guesses
     {
-        userGuessCode = newGame.humanGuess();
-        userResponse = newGame.getResponse(userGuessCode, newGame.secretCode);
+        userGuessCode = humanGuess();
+        userResponse = getResponse(userGuessCode, secretCode);
         cout << userResponse << endl;
 
-        int secretCodeSize = newGame.secretCode.getCode().size();
+        int secretCodeSize = secretCode.getCode().size();
         int guessCodeSize = userGuessCode.getCode().size();
 
         bool isCodeSize =  guessCodeSize == secretCodeSize;
 
-        if (newGame.isSolved(userResponse) && isCodeSize)
+        if (isSolved(userResponse) && isCodeSize)
         //checks if user guess was correct and ends for loop if it is
         {
             cout << "\nCongratulations! You have guessed correctly!\n";
@@ -368,7 +378,7 @@ void printCodeDigits(Code viewingCode)
     }
 
     cout << ")" << endl;
-    
+
 //end of printCodeDigits
 }
 
