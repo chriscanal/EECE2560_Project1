@@ -1,18 +1,22 @@
 // main.cpp
-// Problem Set 1A                                 Chris Canal
+// Problem Set 1b                                 Chris Canal
 // Team cansym                                    canal.c@husky.neu.edu
 //                                                Sarada Symonds
 //                                                symonds.s@husky.neu.edu
 //
-// Main program file for homework 1. Contains declarations for
-// randomInit, checkCorect, and checkIncorect.
+// Main program file for homework 1b.
 
 #include "Code.h"
+#include "Response.h"
 #include <iostream>
 #include <vector>
 #include <time.h>    //for making rand() more random
 
 using namespace std;
+
+
+
+//---------------------Code Class Functions-----------------
 
 Code::Code()
 //default constructor
@@ -139,6 +143,66 @@ void Code::checkGuess( Code& guessCode) const
     cout << ")" << endl;
 }
 
+
+
+//---------------------Response Class Functions-----------------
+
+
+Response::Response()
+//default constructor
+{
+    correctDigits = 0;
+    incorrectDigits = 0;
+}
+
+Response::Response(int newCorrectDigits, int newIncorrectDigits)
+//constructor for two given values
+{
+    correctDigits = newCorrectDigits;
+    incorrectDigits = newIncorrectDigits;
+}
+
+void Response::set(int newCorrectDigits, int newIncorrectDigits)
+//set correct and incorrect digit amounts
+{
+    correctDigits = newCorrectDigits;
+    incorrectDigits = newIncorrectDigits;
+}
+
+void Response::setCorrect(int newCorrectDigits)
+//set only correct digit amount
+{
+    correctDigits = newCorrectDigits;
+}
+
+void Response::setIncorrect(int newIncorrectDigits)
+//set only incorrect digit amount
+{
+    incorrectDigits = newIncorrectDigits;
+}
+
+int Response::getCorrect()
+//get correct digit
+{
+    return correctDigits;
+}
+
+
+int Response::getIncorrect()
+//get incorrect digit
+{
+    return incorrectDigits;
+}
+
+//operator overload to compare two Response objects
+bool operator == ( Response & response1, Response & response2)
+{
+    return (response1.getCorrect() == response2.getCorrect()) && (response1.getIncorrect() == response2.getIncorrect());
+}
+
+
+//---------------------  Free Functions   ----------------------
+
 void printCodeDigits(Code viewingCode)
 //prints the code vector in a readable format
 {
@@ -155,6 +219,13 @@ void printCodeDigits(Code viewingCode)
 
     cout << ")" << endl;
 //end of printCodeDigits
+}
+
+ostream&  operator << (ostream & ostr, Response responseObj)
+{
+    ostr << "(" << responseObj.getCorrect() << ", " << responseObj.getIncorrect() << ")";
+
+    return ostr;
 }
 
 int main()

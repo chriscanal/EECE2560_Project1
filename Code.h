@@ -1,5 +1,5 @@
 // Code.h
-// Problem Set 1A                                 Chris Canal
+// Problem Set 1b                                 Chris Canal
 // Team cansym                                    canal.c@husky.neu.edu
 //                                                Sarada Symonds
 //                                                symonds.s@husky.neu.edu
